@@ -23,10 +23,16 @@ ggplot(df, aes(x=year, y=demand)) +
 adf.test(ts_data) #-> >0.05
 kpss.test(ts_data) #-> >0.05
 
-# 3. Differencing if needed
+
+# ---- Differencing ----
+
 ts_diff1 <- diff(ts_data, differences=1)
-adf.test(ts_diff1); kpss.test(ts_diff1)
+
+adf.test(ts_diff1) #-> <0.05
+kpss.test(ts_diff1) #-> >0.05
+
 plot(ts_diff1, main="First diff")
+
 
 # 4. ACF/PACF
 Acf(ts_data); Pacf(ts_data)
