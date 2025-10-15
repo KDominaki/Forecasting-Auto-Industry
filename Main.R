@@ -18,9 +18,10 @@ ggplot(df, aes(x=year, y=demand)) +
   labs(title="Trend line for revenue")
 
 
-# 2. Stationarity tests
-adf.test(ts_data)
-kpss.test(ts_data)
+# ---- Stationarity tests ----
+
+adf.test(ts_data) #-> >0.05
+kpss.test(ts_data) #-> >0.05
 
 # 3. Differencing if needed
 ts_diff1 <- diff(ts_data, differences=1)
