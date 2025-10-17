@@ -34,9 +34,11 @@ kpss.test(ts_diff1) #-> >0.05
 plot(ts_diff1, main="First diff")
 
 
-# 4. ACF/PACF
+# ---- ACF/PACF ----
+
 Acf(ts_data); Pacf(ts_data)
 Acf(ts_diff1); Pacf(ts_diff1)
+
 
 # 5. Auto ARIMA (AICc preferred)
 model_auto <- auto.arima(ts_data, ic="aicc", seasonal=FALSE, stepwise=FALSE, approximation=FALSE)
