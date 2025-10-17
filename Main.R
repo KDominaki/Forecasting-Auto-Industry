@@ -46,10 +46,11 @@ model_auto <- auto.arima(ts_data, ic="aicc", seasonal=FALSE, stepwise=FALSE, app
 summary(model_auto)
 
 
-# 6. Forecast 4 years
+# ---- Forecast 4 years ----
+
 fc <- forecast(model_auto, h=4, level=c(80,95))
 print(fc)
-plot(fc)
+
 
 # 7. Diagnostics
 checkresiduals(model_auto)
