@@ -36,8 +36,8 @@ plot(ts_diff1, main="First diff")
 
 # ---- ACF/PACF ----
 
-Acf(ts_data); Pacf(ts_data)
-Acf(ts_diff1); Pacf(ts_diff1)
+Acf(ts_data); Pacf(ts_data) # -> before dif
+Acf(ts_diff1); Pacf(ts_diff1) # -> after dif
 
 
 # 5. Auto ARIMA (AICc preferred)
