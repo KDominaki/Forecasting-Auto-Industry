@@ -40,9 +40,11 @@ Acf(ts_data); Pacf(ts_data) # -> before dif
 Acf(ts_diff1); Pacf(ts_diff1) # -> after dif
 
 
-# 5. Auto ARIMA (AICc preferred)
+# ---- Auto ARIMA (AICc preferred) ----
+
 model_auto <- auto.arima(ts_data, ic="aicc", seasonal=FALSE, stepwise=FALSE, approximation=FALSE)
 summary(model_auto)
+
 
 # 6. Forecast 4 years
 fc <- forecast(model_auto, h=4, level=c(80,95))
