@@ -57,11 +57,9 @@ print(fc)
 checkresiduals(model_auto)
 Box.test(resid(model_auto), lag=10, type="Ljung-Box") # p-value = 0.6095
 
-# 8. tsCV
-e <- tsCV(ts_data, function(x,h) forecast(auto.arima(x, ic="aicc", seasonal=FALSE), h=h)$mean, h=1)
-sqrt(mean(e^2, na.rm=TRUE))
-mean(abs(e/ts_data)[-1], na.rm=TRUE)*100
 
-# 9. Benchmarks
+# ---- Benchmarks ----
+
 naive_fc <- naive(ts_data, h=4); mean_fc <- meanf(ts_data, h=4); drift_fc <- rwf(ts_data, h=4, drift=TRUE)
 accuracy(fc); accuracy(naive_fc)
+
