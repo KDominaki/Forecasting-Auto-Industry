@@ -40,7 +40,7 @@ Acf(ts_data); Pacf(ts_data) # -> before dif
 Acf(ts_diff1); Pacf(ts_diff1) # -> after dif
 
 
-# ---- Auto ARIMA (AICc preferred) ----
+# ---- Auto ARIMA ----
 
 model_auto <- auto.arima(ts_data, ic="aicc", seasonal=FALSE, stepwise=FALSE, approximation=FALSE)
 summary(model_auto)
@@ -52,9 +52,10 @@ fc <- forecast(model_auto, h=4, level=c(80,95))
 print(fc)
 
 
-# 7. Diagnostics
+# ---- Diagnostics ----
+
 checkresiduals(model_auto)
-Box.test(resid(model_auto), lag=10, type="Ljung-Box")
+Box.test(resid(model_auto), lag=10, type="Ljung-Box") # p-value = 0.6095
 
 # 8. tsCV
 e <- tsCV(ts_data, function(x,h) forecast(auto.arima(x, ic="aicc", seasonal=FALSE), h=h)$mean, h=1)
