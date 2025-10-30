@@ -8,6 +8,7 @@ df <- data.frame(year = years, demand = demand)
 ts_data <- ts(df$demand, start=2005, frequency=1)
 
 
+
 # ---- Plots ----
 
 plot(ts_data, main="UK Ford Focus Revenue (2005-2022)",
@@ -18,10 +19,12 @@ ggplot(df, aes(x=year, y=demand)) +
   labs(title="Trend line for revenue")
 
 
+
 # ---- Stationarity tests ----
 
 adf.test(ts_data) #-> >0.05
 kpss.test(ts_data) #-> >0.05
+
 
 
 # ---- Differencing ----
@@ -34,10 +37,12 @@ kpss.test(ts_diff1) #-> >0.05
 plot(ts_diff1, main="First diff")
 
 
+
 # ---- ACF/PACF ----
 
 Acf(ts_data); Pacf(ts_data) # -> before dif
 Acf(ts_diff1); Pacf(ts_diff1) # -> after dif
+
 
 
 # ---- Auto ARIMA ----
@@ -46,10 +51,12 @@ model_auto <- auto.arima(ts_data, ic="aicc", seasonal=FALSE, stepwise=FALSE, app
 summary(model_auto)
 
 
+
 # ---- Forecast 4 years ----
 
 fc <- forecast(model_auto, h=4, level=c(80,95))
 print(fc)
+
 
 
 # ---- Diagnostics ----
