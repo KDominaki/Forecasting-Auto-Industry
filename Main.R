@@ -57,7 +57,7 @@ print(fc)
 checkresiduals(model_auto)
 Box.test(resid(model_auto), lag=10, type="Ljung-Box") # p-value = 0.6095
 
-# Residual QQ plot for greater detail
+#Residual QQ plot for greater detail
 
 residuals_arima <- residuals(model_auto)
 
@@ -68,9 +68,14 @@ qqline(residuals_arima, col="red")
 
 # ---- Benchmarks ----
 
-naive_fc <- naive(ts_data, h=4); mean_fc <- meanf(ts_data, h=4); drift_fc <- rwf(ts_data, h=4, drift=TRUE)
+#Comparison of ARIMA with naive
+naive_fc <- naive(ts_data, h=4) 
+mean_fc <- meanf(ts_data, h=4) 
+drift_fc <- rwf(ts_data, h=4, drift=TRUE)
+
 accuracy(fc); accuracy(naive_fc)
 
+#Comparison of ARIMA with ETS
 ets_model <- ets(ts_data)
 ets_fc <- forecast(ets_model, h=4)
 
