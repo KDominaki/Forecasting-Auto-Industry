@@ -90,3 +90,24 @@ accuracy(fc); accuracy(ets_fc)
 
 
 
+# ---- Train/Test Split ----
+
+#Split data: use 2005–2018 as training, 2019–2022 as test
+train <- window(ts_data, end = c(2018))
+test  <- window(ts_data, start = c(2019))
+
+#Fit ARIMA on training data only
+model_train <- auto.arima(train, ic = "aicc", seasonal = FALSE,
+                          stepwise = FALSE, approximation = FALSE)
+
+#Forecast next 4 years (2019–2022)
+fc_train <- forecast(model_train, h = length(test))
+
+#Compare predictions with actual test values
+accuracy(fc_train, test)
+
+
+
+
+
+
