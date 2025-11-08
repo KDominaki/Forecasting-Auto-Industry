@@ -34,7 +34,7 @@ ts_diff1 <- diff(ts_data, differences=1)
 adf.test(ts_diff1) #-> <0.05
 kpss.test(ts_diff1) #-> >0.05
 
-plot(ts_diff1, main="First diff")
+plot(ts_diff1, main="TS after differencing")
 
 
 
@@ -61,32 +61,16 @@ print(fc)
 
 # ---- Diagnostics ----
 
+#Residuals check
 checkresiduals(model_auto)
 Box.test(resid(model_auto), lag=10, type="Ljung-Box") # p-value = 0.6095
 
 #Residual QQ plot for greater detail
-
 residuals_arima <- residuals(model_auto)
 
-qqnorm(residuals_arima)
+qqnorm(residuals_arima, main = "Residuals QQ-Plot",
+       xlab = "Theoretical Quantiles", ylab = "Sample Quantiles")
 qqline(residuals_arima, col="red")
-
-
-
-# ---- Benchmarks ----
-
-#Comparison of ARIMA with naive
-naive_fc <- naive(ts_data, h=4) 
-mean_fc <- meanf(ts_data, h=4) 
-drift_fc <- rwf(ts_data, h=4, drift=TRUE)
-
-accuracy(fc); accuracy(naive_fc)
-
-#Comparison of ARIMA with ETS
-ets_model <- ets(ts_data)
-ets_fc <- forecast(ets_model, h=4)
-
-accuracy(fc); accuracy(ets_fc)
 
 
 
@@ -96,15 +80,30 @@ accuracy(fc); accuracy(ets_fc)
 train <- window(ts_data, end = c(2018))
 test  <- window(ts_data, start = c(2019))
 
-#Fit ARIMA on training data only
+
+
+# ---- Fit Models on Training Data ----
+
+# 1. ARIMA
 model_train <- auto.arima(train, ic = "aicc", seasonal = FALSE,
                           stepwise = FALSE, approximation = FALSE)
-
-#Forecast next 4 years (2019–2022)
 fc_train <- forecast(model_train, h = length(test))
 
-#Compare predictions with actual test values
-accuracy(fc_train, test)
+# 2. Naive Forecast
+naive_train <- naive(train, h = length(test))
+
+# 3. ETS Model
+ets_train <- ets(train)
+ets_fc_train <- forecast(ets_train, h = length(test))
+
+
+
+# ---- Compare Accuracy on the SAME test set ----
+
+accuracy(fc_train, test)      # ARIMA vs Actual test
+accuracy(naive_train, test)   # Naive vs Actual test
+accuracy(ets_fc_train, test)  # ETS vs Actual test
+
 
 
 
